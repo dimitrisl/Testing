@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+{% if x %}
+    {% for i in x %}
+        <li>{{ i }}</li>
+    {% endfor %}
+
+    {% else %}
+        <b>You never gave a list</b>
+{% endif %}
