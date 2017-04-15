@@ -1,18 +1,30 @@
 import sqlite3
-from flask import Flask,g,request
+from flask import Flask,g,request,flash,redirect
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask import abort
 
+from flask_wtf import Form
+from wtforms import StringField, BooleanField
+from wtforms.validators import DataRequired
+
 app = Flask(__name__)
+
+app.config.from_object('config')
+
+class LoginForm(Form):
+    name = StringField('name', validators=[DataRequired()])
+    surname = StringField('surname', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired()])
+
 
 def connect_db():
     return sqlite3.connect("C:\Users\Dimitrisl\Desktop\Testing\\test.db")
 
 @app.route('/')
 @app.route('/index')
-def index():
-    return render_template("index.html",x=None)
+def index(x=None):
+    return render_template("index.html",x=x)
 
 @app.route('/database')
 def hello_world():
@@ -33,6 +45,13 @@ def skata():
     #abort(404)
     return render_template("index.html",x=lista)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for name="%s", surname=%s ,e mail = %s' %(form.name.data, form.surname.data,form.email.data))
+        return redirect('/')
+    return render_template('form.html',title='Sign In',form=form)
 
 if __name__ == '__main__':
     app.run()

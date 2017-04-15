@@ -1,0 +1,18 @@
+
+  <h1>Sign In</h1>
+  <form action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+      <p>
+          Please enter your name:<br>
+          {{ form.name(size=20) }}<br>
+      </p>
+      <p>
+          Please enter your surname:<br>
+          {{ form.surname(size=20) }}<br>
+      </p>
+      <p>
+          Please enter your email:<br>
+          {{ form.email(size=50) }}<br>
+      </p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
