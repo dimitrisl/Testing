@@ -5,14 +5,27 @@
       <p>
           Please enter your name:<br>
           {{ form.name(size=20) }}<br>
+
+                    {% for error in form.name.errors %}
+                    <span style="color: blue;">[{{ error }}]</span>
+                  {% endfor %}<br>
+
       </p>
       <p>
           Please enter your surname:<br>
           {{ form.surname(size=20) }}<br>
+
+                  {% for error in form.surname.errors %}
+                    <span style="color: yellow;">[{{ error }}]</span>
+                  {% endfor %}<br>
       </p>
       <p>
           Please enter your email:<br>
           {{ form.email(size=50) }}<br>
+
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}<br>
       </p>
       <p><input type="submit" value="Sign In"></p>
   </form>
