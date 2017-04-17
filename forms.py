@@ -4,7 +4,9 @@ from wtforms.validators import DataRequired
 from wtforms.validators import InputRequired, Email
 from wtforms.fields.html5 import EmailField
 
+
 class RegisterForm(Form):
+
     username = StringField('username', validators=[DataRequired()])
     password = PasswordField('New Password', [
         validators.DataRequired(),

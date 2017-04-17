@@ -4,14 +4,17 @@ from flask.helpers import url_for
 from flask.templating import render_template
 from flask import abort
 from forms import RegisterForm
+import os
 
 app = Flask(__name__)
 
 app.config.from_object('config')
 
-def connect_db():
-    return sqlite3.connect("C:\Users\Dimitrisl\Desktop\Testing\\test.db")
+DATABASE=os.path.join(app.root_path, 'test.db')
 
+def connect_db():
+    return sqlite3.connect(DATABASE)
+cd
 @app.route('/')
 @app.route('/index')
 def index(x=None):
