@@ -1,8 +1,20 @@
 from flask_wtf import Form
-from wtforms import StringField, BooleanField
+from wtforms import StringField, PasswordField,validators
 from wtforms.validators import DataRequired
+from wtforms.validators import InputRequired, Email
+from wtforms.fields.html5 import EmailField
+
+class RegisterForm(Form):
+    username = StringField('username', validators=[DataRequired()])
+    password = PasswordField('New Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
+    email = EmailField('Email address', validators=[InputRequired("Please enter your email address."), Email("Please enter your email address.")])
 
 class LoginForm(Form):
-    name = StringField('name', validators=[DataRequired()])
-    surname = StringField('surname', validators=[DataRequired()])
-    email = StringField('email', validators=[DataRequired()])
+    pass
+
+class ReplaceForm(Form):
+    pass

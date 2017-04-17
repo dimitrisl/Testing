@@ -3,15 +3,11 @@ from flask import Flask,g,request,flash,redirect
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask import abort
-from forms import LoginForm
+from forms import RegisterForm
 
 app = Flask(__name__)
 
 app.config.from_object('config')
-
-from flask_wtf import Form
-from wtforms import StringField, BooleanField
-from wtforms.validators import DataRequired
 
 def connect_db():
     return sqlite3.connect("C:\Users\Dimitrisl\Desktop\Testing\\test.db")
@@ -42,11 +38,11 @@ def skata():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    form = RegisterForm()
     if form.validate_on_submit():
-        flash('Login requested for name="%s", surname=%s ,e mail = %s' %(form.name.data, form.surname.data,form.email.data))
+        flash('Login requested for username="%s", password=%s ,e mail = %s' %(form.username.data, form.password.data,form.email.data))
         return redirect('/')
-    return render_template('form.html',title='Sign In',form=form)
+    return render_template('form.html',title='Register',form=form)
 
 if __name__ == '__main__':
     app.run()
