@@ -15,8 +15,7 @@ class RegisterForm(Form):
     confirm = PasswordField('Repeat Password')
     email = EmailField('Email address', validators=[InputRequired("Please enter your email address."), Email("Please enter your email address.")])
 
-class LoginForm(Form):
-    pass
 
-class ReplaceForm(Form):
-    pass
+class LoginForm(Form):
+    username = StringField('username', validators=[DataRequired()])
+    password = PasswordField('Give the password', validators=[DataRequired()])
