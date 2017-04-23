@@ -4,12 +4,11 @@ from flask.templating import render_template
 from forms import RegisterForm, LoginForm, Otp
 import os
 import MySQLdb
+# import tools
 
 app = Flask(__name__)
 
 app.config.from_object('config')
-
-DATABASE = os.path.join(app.root_path, 'test.db')
 
 
 def connect_db():
@@ -90,7 +89,7 @@ def authority():
         if str(form.key.data) == str(whateva):
             session['authenticated'] = 1
             return "this is succesfull!"
-    return render_template('intermediate.html',form=form)
+    return render_template('intermediate.html', form=form)
 
 
 @app.route('/logout')

@@ -22,4 +22,4 @@ class LoginForm(Form):
 
 
 class Otp(Form):
-    key = StringField('username', validators=[DataRequired()])
+    key = StringField('key', validators=[DataRequired()])
