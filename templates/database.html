@@ -1,0 +1,10 @@
+<table>
+    <th>id</th>
+    <th>username</th>
+    <th>password</th>
+    <th>email</th>
+    <th>authenticated</th>
+    {% for row in x %}
+     <tr><td> {{ row.id }}</td> <td>{{ row.username }}</td> <td>{{ row.password }}</td><td>{{ row.email }}</td>  <td>{{ row.authenticated }}</td> </tr>
+    {% endfor %}
+</table>

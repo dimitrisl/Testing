@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-{% if x %}
-    {% for i in x %}
-        <li><b>{{ i }} </b></li>
-    {% endfor %}
-    {% else %}
-
-    <b>You never gave a list</b>
-{% endif %}
-
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
+Welcome user..to our site.
+<br><br>
+Are you registered? Then go to <a href={{ url_for('login') }}>Login here!</a><br>
+Need an account? Then go to <a href={{ url_for('register') }}>Register here!</a>
