@@ -1,10 +1,12 @@
 import sqlite3
-from flask import Flask,g,request,flash,redirect
+from flask import Flask, g, request, flash, redirect
 from flask.helpers import url_for
 from flask.templating import render_template
 from flask import abort
 from forms import RegisterForm,LoginForm
 import os
+import MySQLdb
+
 
 app = Flask(__name__)
 
@@ -12,21 +14,28 @@ app.config.from_object('config')
 
 DATABASE=os.path.join(app.root_path, 'test.db')
 
+
 def connect_db():
-    return sqlite3.connect(DATABASE)
+    db = MySQLdb.connect(host="localhost",  # your host, usually localhost
+                         user="root",  # your username
+                         passwd="root",  # your password
+                         db="flask")  # name of the data base
+
+    return db.cursor()
+
 
 @app.route('/')
 @app.route('/index')
-def index(x=None):
-    return render_template("index.html",x=x)
+def index(x=None,error=None):
+    return render_template("index.html", x=x,error=error)
+
 
 @app.route('/database')
 def hello_world():
-    db_connection = connect_db()
-    cursor = db_connection.execute("select * from user;")
-    records = [dict(id=row[0],username=row[1],email=row[2],authecticated=row[3]) for row in cursor.fetchall()]
-    print records[0]["username"]
-    return render_template("index.html",x=records)
+    cursor = connect_db()
+    cursor.execute("select * from user;")
+    data = [dict(id=row[0], username=row[1], email=row[2], authecticated=row[3],password=row [4]) for row in cursor.fetchall()]
+    return render_template("index.html",x=data)
 
 
 @app.route('/register')
@@ -40,15 +49,17 @@ def login():
     if form.validate_on_submit():
         # mysql query
         db_connection = connect_db()
-        user = db_connection.execute("select * from user where username='{}';".format(form.username.data)).fetchall()
+        db_connection.execute("select * from user where username='{0}';".format(form.username.data))
+        user = db_connection.fetchall()
         if user:
-            print user
-            user = dict(id=user[0][0], username=user[0][1], email=user[0][2], authecticated=user[0][3])
-            print type(form.password.data), form.password.data
-            print type(user['id'])
-
-            if user['id'] == int(form.password.data):
-                return "mpikes kariolare"
+            user = user[0]
+            user = dict(id=user[0], username=user[1], email=user[2], authecticated=user[3], password=user[4])
+            if user['password'] == form.password.data:
+                return render_template("welcome.html")
+            elif user['password'] != form.password.data :
+                return render_template('login.html',  form=form, error="Invalid credentials")
+        else:
+            return render_template('login.html', form=form, error="Invalid credentials")
     return render_template('login.html', form=form)
 
 if __name__ == '__main__':

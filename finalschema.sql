@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `finalflask` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `finalflask`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: finalflask
+-- Host: 127.0.0.1    Database: finalflask
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.7.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,6 +27,7 @@ CREATE TABLE `user` (
   `username` text NOT NULL,
   `email` text NOT NULL,
   `authenticated` tinyint(1) NOT NULL,
+  `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,17 +38,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'vasiapars','vasia@parasito.gr',1),(2,'dimitrisraynor','dimitris@raynor.gr',1),(3,'chrisdraxoui','chris@draxoui.gr',1),(4,'malakas89','malakas89@draxoui.gr',1),(5,'malakas95','malakas95@draxoui.gr',1);
+INSERT INTO `user` VALUES (1,'dimitris','dlolis88@gmail.com',1,'nopass'),(2,'mitsos','lala@papaki.gr',0,'gioutsos'),(3,'vasia','parasito@para.gr',1,'kados'),(4,'xristos','hippies@must.die',1,'perivolia'),(5,'poph','santin@giagia.moy',0,'skata');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'finalflask'
---
-
---
--- Dumping routines for database 'finalflask'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -60,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-17 19:14:49
+-- Dump completed on 2017-04-23 13:47:19

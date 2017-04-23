@@ -23,5 +23,10 @@
                   {% endfor %}<br>
 
       <p><input type="submit" value="Sign In"></p>
+
+{% if error %}
+    {{ error }}
+{% endif %}
+
 </body>
 </html>
