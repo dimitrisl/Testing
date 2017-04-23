@@ -19,3 +19,7 @@ class RegisterForm(Form):
 class LoginForm(Form):
     username = StringField('username', validators=[DataRequired()])
     password = PasswordField('Give the password', validators=[DataRequired()])
+
+
+class Otp(Form):
+    key = StringField('username', validators=[DataRequired()])

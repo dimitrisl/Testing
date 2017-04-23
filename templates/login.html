@@ -1,21 +1,26 @@
- <form action="" method="post" name="login">
-      {{ form.hidden_tag() }}
-      <p>
-          Please enter your name:<br>
-          {{ form.username(size=20) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: blue;">[{{ error }}]</span>
-          {% endfor %}<br>
-      </p>
-      <p>
-          Please enter your password:<br>
-          {{ form.password(size=20) }}<br>
-                  {% for error in form.password.errors %}
-                    <span style="color: blue;">[{{ error }}]</span>
-                  {% endfor %}<br>
+{% if session['username'] %}
+You already are logged in as {{ session['username']  }}
+    if you want to logout press <a href = {{ url_for('logout') }}>here!</a>
+{% else %}
+     <form action="" method="post" name="login">
+          {{ form.hidden_tag() }}
+          <p>
+              Please enter your name:<br>
+              {{ form.username(size=20) }}<br>
+                {% for error in form.username.errors %}
+                <span style="color: blue;">[{{ error }}]</span>
+              {% endfor %}<br>
+          </p>
+          <p>
+              Please enter your password:<br>
+              {{ form.password(size=20) }}<br>
+                      {% for error in form.password.errors %}
+                        <span style="color: blue;">[{{ error }}]</span>
+                      {% endfor %}<br>
 
-      <p><input type="submit" value="Sign In"></p>
-</form>
+          <p><input type="submit" value="Sign In"></p>
+    </form>
+{% endif%}
 {% if error %}
     {{ error }}
 {% endif %}

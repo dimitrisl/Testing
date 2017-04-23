@@ -1,0 +1,10 @@
+     <form action="" method="post" name="validate">
+          {{ form.hidden_tag() }}
+          <p>
+              Please enter the key you just received!:<br>
+              {{ form.key(size=20) }}<br>
+                      {% for error in form.key.errors %}
+                        <span style="color: blue;">[{{ error }}]</span>
+                      {% endfor %}<br>
+          <p><input type="submit" value="Validate"></p>
+    </form>

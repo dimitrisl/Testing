@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WELCOME</title>
-</head>
-<body>
-kalws ilthes kariolare ston topo mas!!
-</body>
-</html>
+{% if session['username'] %}
+You already are logged in as {{ session['username']  }}
+    if you want to logout press <a href = {{ url_for('logout') }}>here!</a>
+{% else %}
+You are not logged in!!
+{% endif%}

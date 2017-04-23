@@ -1,8 +1,7 @@
-from flask import Flask, g, request, flash, redirect
+from flask import Flask, request, redirect, session
 from flask.helpers import url_for
 from flask.templating import render_template
-from flask import abort
-from forms import RegisterForm,LoginForm
+from forms import RegisterForm, LoginForm, Otp
 import os
 import MySQLdb
 
@@ -26,6 +25,11 @@ def connect_db():
 @app.route('/index')
 def index():
     return render_template("index.html")
+
+
+@app.route('/welcome')
+def welcome():
+    return render_template("welcome.html")
 
 
 @app.route('/database')
@@ -68,12 +72,34 @@ def login():
             user = user[0]
             user = dict(id=user[0], username=user[1], email=user[2], authecticated=user[3], password=user[4])
             if user['password'] == form.password.data:
-                return render_template("welcome.html")
+                session['username'] = user['username']
+                session['authenticated'] = 0
+                return redirect("/intermediate")
             elif user['password'] != form.password.data:
                 return render_template('login.html',  form=form, error="Invalid credentials")
         else:
             return render_template('login.html', form=form, error="Invalid credentials")
     return render_template('login.html', form=form)
+
+
+@app.route('/intermediate', methods=['GET','POST'])
+def authority():
+    form = Otp()
+    if form.validate_on_submit():
+        whateva = 123131
+        if str(form.key.data) == str(whateva):
+            session['authenticated'] = 1
+            return "this is succesfull!"
+    return render_template('intermediate.html',form=form)
+
+
+@app.route('/logout')
+def logout():
+    print "we destroy", session
+    session.pop('username', None)
+    session.pop('authenticated', None)
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
