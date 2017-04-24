@@ -4,7 +4,7 @@ from flask.templating import render_template
 from forms import RegisterForm, LoginForm, Otp
 import os
 import MySQLdb
-# import tools
+from tools import set_logger
 
 app = Flask(__name__)
 
@@ -60,6 +60,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    loging = set_logger()
+    loging.debug("-----THIS IS DEBUG------")
     if form.validate_on_submit():
         # mysql query
         _, db_connection = connect_db()
