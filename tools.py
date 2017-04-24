@@ -3,7 +3,7 @@ import logging
 import os
 
 
-def set_logger(filename='access.log'):
+def set_logger(filename= os.path.abspath(__file__)+'access.log'):
     """
     Function that instantiates
     :param filename:
