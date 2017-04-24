@@ -2,14 +2,12 @@
 import logging
 import os
 
-
-def set_logger(filename= os.path.abspath(__file__)+'access.log'):
+def set_logger(filename='access.log'):
     """
     Function that instantiates
     :param filename:
     :return:
     """
-
     log_formatter = logging.Formatter("%(asctime)s [%(threadName)s] [%(levelname)s]  %(message)s")
     root_logger = logging.getLogger(__name__)
     root_logger.setLevel(logging.DEBUG)
@@ -18,15 +16,17 @@ def set_logger(filename= os.path.abspath(__file__)+'access.log'):
     file_handler.setFormatter(log_formatter)
     file_handler.setLevel(logging.DEBUG)
     root_logger.addHandler(file_handler)
-
     return root_logger
 
 
 def send_email(recipient, subject, text):
     import smtplib
 
-    gmail_user = os.environ.get('mail_user') # ergasia.netsec@gmail.com
-    gmail_pwd = os.environ.get('mail_pass') # ergasiaasfaleiasdiktuwn
+    # gmail_user = os.environ.get('mail_user') # ergasia.netsec@gmail.com
+    # gmail_pwd = os.environ.get('mail_pass') # ergasiaasfaleiasdiktuwn
+    gmail_user = "ergasia.netsec@gmail.com"
+    gmail_pwd = "ergasiaasfaleiasdiktuwn"
+
 
     to_ = recipient if type(recipient) is list else [recipient]
 
@@ -45,7 +45,6 @@ def send_email(recipient, subject, text):
         print 'successfully sent the mail'
         print 'successfully sent the mail'
     except Exception as e:
-        logger.exception(e)
         print "failed to send mail"
 
-logger = set_logger()
+# logger = set_logger()

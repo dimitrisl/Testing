@@ -2,9 +2,10 @@ from flask import Flask, request, redirect, session
 from flask.helpers import url_for
 from flask.templating import render_template
 from forms import RegisterForm, LoginForm, Otp
-import os
 import MySQLdb
 from tools import set_logger
+from tools import send_email
+import otp_generator
 
 app = Flask(__name__)
 
@@ -23,6 +24,8 @@ def connect_db():
 @app.route('/')
 @app.route('/index')
 def index():
+    loging = set_logger()
+    loging.debug("-----THIS IS DEBUG------")
     return render_template("index.html")
 
 
@@ -60,12 +63,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    loging = set_logger()
-    loging.debug("-----THIS IS DEBUG------")
     if form.validate_on_submit():
-        # mysql query
-        _, db_connection = connect_db()
-        print type('{0}'.format(form.username.data)),form.username.data
+        connection, db_connection = connect_db()
         db_connection.execute("select * from user where username='{0}';".format(form.username.data))
         user = db_connection.fetchall()
         print user
@@ -75,6 +74,9 @@ def login():
             if user['password'] == form.password.data:
                 session['username'] = user['username']
                 session['authenticated'] = 0
+                otp_num = otp_generator.otp_gen()
+                session['OTP'] = otp_num
+                send_email("dlolis88@gmail.com", "One time password", otp_num) # user[2]
                 return redirect("/intermediate")
             elif user['password'] != form.password.data:
                 return render_template('login.html',  form=form, error="Invalid credentials")
@@ -87,10 +89,13 @@ def login():
 def authority():
     form = Otp()
     if form.validate_on_submit():
-        whateva = 123131
-        if str(form.key.data) == str(whateva):
+        if otp_generator.otp_ver(str(form.key.data)) and str(form.key.data) == str(session['OTP']) :
             session['authenticated'] = 1
-            return "this is succesfull!"
+            connection, db_connection = connect_db()
+            db_connection.execute("UPDATE user set authenticated = 1 where username='{0}';".format(str(session['username'])))
+            connection.commit()
+            session.pop('OTP', None)
+            return redirect('/welcome')
     return render_template('intermediate.html', form=form)
 
 
@@ -99,6 +104,7 @@ def logout():
     print "we destroy", session
     session.pop('username', None)
     session.pop('authenticated', None)
+    session.pop('OTP', None)
     return redirect(url_for('index'))
 
 
