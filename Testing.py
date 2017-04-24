@@ -6,7 +6,6 @@ from forms import RegisterForm,LoginForm
 import os
 import MySQLdb
 
-
 app = Flask(__name__)
 
 app.config.from_object('config')
@@ -20,7 +19,7 @@ def connect_db():
                          passwd="root",  # your password
                          db="flask")  # name of the data base
 
-    return db,db.cursor()
+    return db, db.cursor()
 
 
 @app.route('/')
@@ -34,7 +33,7 @@ def show_me_the_data():
     _, cursor = connect_db()
     cursor.execute("select * from user;")
     data = [dict(id=row[0], username=row[1], email=row[2], authecticated=row[3], password=row[4]) for row in cursor.fetchall()]
-    return render_template("database.html",x=data)
+    return render_template("database.html", x=data)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -48,7 +47,7 @@ def register():
             if user:
                 return render_template('register.html', form=form, error="Account already exists!")
             else:
-                db_connection.execute("Insert into user (username,password,authenticated,email) VALUES ('{0}','{1}','{2}','{3}');".\
+                db_connection.execute("Insert into user (username,password,authenticated,email) VALUES ('{0}','{1}',{2},'{3}');".\
                     format(form.username.data, form.password.data, 0, form.email.data)) # set to not authenticated at first
                 connection.commit()
                 return redirect('/database')
@@ -70,11 +69,11 @@ def login():
             user = dict(id=user[0], username=user[1], email=user[2], authecticated=user[3], password=user[4])
             if user['password'] == form.password.data:
                 return render_template("welcome.html")
-            elif user['password'] != form.password.data :
+            elif user['password'] != form.password.data:
                 return render_template('login.html',  form=form, error="Invalid credentials")
         else:
             return render_template('login.html', form=form, error="Invalid credentials")
     return render_template('login.html', form=form)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

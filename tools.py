@@ -25,8 +25,8 @@ def set_logger(filename='access.log'):
 def send_email(recipient, subject, text):
     import smtplib
 
-    gmail_user = os.environ.get('mail_user')
-    gmail_pwd = os.environ.get('mail_pass')
+    gmail_user = os.environ.get('mail_user') # ergasia.netsec@gmail.com
+    gmail_pwd = os.environ.get('mail_pass') # ergasiaasfaleiasdiktuwn
 
     to_ = recipient if type(recipient) is list else [recipient]
 
