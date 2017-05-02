@@ -25,7 +25,11 @@ def connect_db():
 @app.route('/index')
 def index():
     loging = set_logger()
-    loging.debug("-----THIS IS DEBUG------")
+    print session
+    if "username" in session.keys():
+        loging.debug("{0} came in".format(session["username"]))
+    else:
+        loging.debug("index")
     return render_template("index.html")
 
 
@@ -76,7 +80,7 @@ def login():
                 session['authenticated'] = 0
                 otp_num = otp_generator.otp_gen()
                 session['OTP'] = otp_num
-                send_email("dlolis88@gmail.com", "One time password", otp_num) # user[2]
+                send_email(user["email"], "One time password", otp_num)
                 return redirect("/intermediate")
             elif user['password'] != form.password.data:
                 return render_template('login.html',  form=form, error="Invalid credentials")
