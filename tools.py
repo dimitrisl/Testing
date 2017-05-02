@@ -1,5 +1,3 @@
-
-import logging
 import os
 
 def set_logger(filename='access.log'):
@@ -8,9 +6,12 @@ def set_logger(filename='access.log'):
     :param filename:
     :return:
     """
+    import logging
     log_formatter = logging.Formatter("%(asctime)s [%(threadName)s] [%(levelname)s]  %(message)s")
     root_logger = logging.getLogger(__name__)
     root_logger.setLevel(logging.DEBUG)
+    if root_logger.handlers:
+        root_logger.handlers = []
     # setting file handler for logger
     file_handler = logging.FileHandler(filename)
     file_handler.setFormatter(log_formatter)
@@ -43,8 +44,9 @@ def send_email(recipient, subject, text):
         # server_ssl.quit()
         server_ssl.close()
         print 'successfully sent the mail'
-        print 'successfully sent the mail'
+        return 'success'
     except Exception as e:
         print "failed to send mail"
+        return 'fail'
 
 # logger = set_logger()
