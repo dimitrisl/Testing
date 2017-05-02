@@ -1,3 +1,8 @@
+{% if session['username'] %}
+You already are logged in as {{ session['username']  }}
+    if you want to logout press <a href = {{ url_for('logout') }}>here!</a>
+    if you want to go to the start again <a href = {{ url_for('index') }}>here!</a>
+{% else %}
      <form action="" method="post" name="validate">
           {{ form.hidden_tag() }}
           <p>
@@ -8,3 +13,4 @@
                       {% endfor %}<br>
           <p><input type="submit" value="Validate"></p>
     </form>
+{% endif %}
