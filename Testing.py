@@ -57,10 +57,10 @@ def register():
             if user:
                 return render_template('register.html', form=form, error="Account already exists!")
             else:
-                db_connection.execute("Insert into user (username,password,authenticated,email) VALUES ('{0}','{1}',{2},'{3}');".\
-                    format(form.username.data, form.password.data, 0, form.email.data)) # set to not authenticated at first
+                db_connection.execute("Insert into user (username,password,authenticated,email) VALUES ('{0}','{1}',{2},'{3}');".format(form.username.data, form.password.data, 0, form.email.data)) # set to not authenticated at first
                 connection.commit()
-                return redirect('/database')
+                print session
+                return redirect('/index')
     return render_template("register.html", form=form)
 
 
@@ -81,6 +81,7 @@ def login():
                 otp_num = otp_generator.otp_gen()
                 session['OTP'] = otp_num
                 send_email(user["email"], "One time password", otp_num)
+                print session
                 return redirect("/intermediate")
             elif user['password'] != form.password.data:
                 return render_template('login.html',  form=form, error="Invalid credentials")

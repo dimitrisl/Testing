@@ -1,4 +1,4 @@
-{% if session['username'] %}
+{% if session['username'] and session['authenticated'] %}
 You already are logged in as {{ session['username']  }}
     if you want to logout press <a href = {{ url_for('logout') }}>here!</a>
     if you want to go to the start again <a href = {{ url_for('index') }}>here!</a>

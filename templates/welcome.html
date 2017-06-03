@@ -1,5 +1,5 @@
 {% if session['username'] %}
-You already are logged in as {{ session['username']  }}
+Welcome user :  {{ session['username']  }}
     if you want to logout press <a href = {{ url_for('logout') }}>here!</a>
 {% else %}
 You are not logged in!!
