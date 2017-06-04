@@ -29,12 +29,18 @@ def index():
     if "username" in session.keys():
         loging.debug("{0} came in".format(session["username"]))
     else:
-        loging.debug("index")
+        loging.debug("Anonymous is in /index")
     return render_template("index.html")
 
 
 @app.route('/welcome')
 def welcome():
+    loging = set_logger()
+    print session
+    if "username" in session.keys():
+        loging.debug("{0} came in".format(session["username"]))
+    else:
+        loging.debug("anonymous is in /welcome")
     return render_template("welcome.html")
 
 
@@ -92,6 +98,8 @@ def login():
 
 @app.route('/intermediate', methods=['GET','POST'])
 def authority():
+    loging = set_logger()
+
     form = Otp()
     if form.validate_on_submit():
         if otp_generator.otp_ver(str(form.key.data)) and str(form.key.data) == str(session['OTP']) :
@@ -100,6 +108,8 @@ def authority():
             db_connection.execute("UPDATE user set authenticated = 1 where username='{0}';".format(str(session['username'])))
             connection.commit()
             session.pop('OTP', None)
+            if "username" in session.keys():
+                loging.debug("{0} was authenticated with OTP".format(session["username"]))
             return redirect('/welcome')
         else:
             return redirect('/logout')
@@ -108,6 +118,9 @@ def authority():
 
 @app.route('/logout')
 def logout():
+    loging = set_logger()
+    if "username" in session.keys():
+        loging.debug("{0} logged out".format(session["username"]))
     print "we destroy", session
     session.pop('username', None)
     session.pop('authenticated', None)
