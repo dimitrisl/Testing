@@ -101,6 +101,8 @@ def authority():
             connection.commit()
             session.pop('OTP', None)
             return redirect('/welcome')
+        else:
+            return redirect('/logout')
     return render_template('intermediate.html', form=form)
 
 
